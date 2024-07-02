@@ -1,8 +1,7 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
     min-height: 100vh;
     margin: 0;
     background: #1a1a2e;
@@ -10,6 +9,7 @@ body {
     transition: background-color 1s ease;
 }
 .container {
+    margin: auto;
     text-align: center;
     background: rgba(255, 255, 255, 0.1);
     padding: 2rem;
@@ -19,6 +19,18 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.18);
     max-width: 80%;
     width: 400px;
+}
+a {
+    color: white;
+    text-decoration: none;
+    margin-right: 2ch;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
 }
 h1, h2 {
     margin-bottom: 1rem;
@@ -109,9 +121,9 @@ p {
     opacity: 0.7;
 }
 #theme-toggle {
-    position: absolute;
+    /* position: absolute;
     top: 20px;
-    right: 20px;
+    right: 20px; */
     background: none;
     border: none;
     color: white;
@@ -156,9 +168,6 @@ p {
 }
 
 #icon {
-    position: absolute;
-    top: 10px;
-    left: 20px;
     background: none;
     border: none;
     img {
