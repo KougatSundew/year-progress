@@ -4,9 +4,18 @@ import cron from 'node-cron';
 import cors from 'cors';
 
 const app = express();
-const port = 3000;
+const port = 5173;
 
-app.use(cors());
+app.use(cors({
+    origin: function (origin, callback) {
+        const allowedOrigins = ['https://kougatsundew.github.io', 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'https://ypa.komstaproductionstudio.com'];
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    }
+}));
 
 const database = new Database('db.sqlite');
 database.init();
@@ -63,7 +72,7 @@ await init();
 
 // Schedule to fetch stock data twice a day
 // At 09:00 AM
-cron.schedule('0 9 * * *', () => {
+cron.schedule('0 11 * * *', () => {
     console.log('Fetching stock data in the morning...');
     fetchStockData();
 }, {
@@ -91,5 +100,5 @@ app.get('/', async (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Year progress app listening on port ${port}`)
 });
