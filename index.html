@@ -123,7 +123,7 @@
                     const changePercent = data['changePercent'];
                     const symbol = data['symbol'];
 
-                    document.getElementById('stock-price').textContent = `$${price}`;
+                    document.getElementById('stock-price').textContent = `${price} €`;
                     const changeElement = document.getElementById('stock-change');
                     changeElement.textContent = `${change} (${changePercent})`;
                     changeElement.className = 'stock-change ' + (change >= 0 ? 'positive' : 'negative');
