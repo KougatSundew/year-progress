@@ -6,6 +6,7 @@
     <title>Enhanced Year Progress Tracker with Weather and Stock</title>
     <link rel="stylesheet" href="./css/main.css">
     <link rel="icon" href="./resources/icon.png" type="image/png">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/components/spinner/spinner.js"></script>
 </head>
 <body>
     <header>
@@ -47,9 +48,15 @@
                     <path d="M16.8049 14.0105L9.46458 27.9859H7.36942L0.0339355 14.0105L7.36942 0.0351562H9.46458L2.13394 14.0105L8.41942 25.9894L14.7049 14.0105L11.0372 7.0253L12.0872 5.02882L16.8049 14.0105ZM13.6597 0.0351562H11.5646L4.2291 14.0105L8.94684 22.9922L9.99684 20.9957L6.3291 14.0056L12.6146 2.02671L18.9001 14.0056L11.5646 27.9859H13.6597L20.9952 14.0105L13.6597 0.0351562Z" fill="white"></path>
                 </svg>
             </h2>
-            <p id="stock-price"></p>
-            <p id="stock-change"></p>
+            <div id="stock-data">
+                <p id="stock-price"></p>
+                <p id="stock-change"></p>
+                <p id="stock-error"></p>
+            </div>
         </div>
+        <template id="template-spinner">
+            <sl-spinner id="spinner" style="--indicator-color: white"></sl-spinner>
+        </template>
     </div>
 
     <script>
@@ -114,25 +121,37 @@
         }
 
         function getStockData() {
-            const url = `https://ypa.komstaproductionstudio.com/`;
+            const url = `http://localhost:5173/`;
+            const stockData = document.getElementById('stock-data');
+            const template = document.getElementById('template-spinner');
+            const spinnerTemplate = template.content.cloneNode(true);
 
+            const stockPrice = document.getElementById('stock-price');
+            const stockChange = document.getElementById('stock-change');
+            const stockError = document.getElementById('stock-error');
+
+            stockError.innerText = '';
+            stockPrice.innerHTML = '';
+            stockChange.innerHTML = '';
+            stockData.appendChild(spinnerTemplate);
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
+                    stockData.getElementsByTagName('sl-spinner')[0].remove();
                     console.log(data);
                     const price = data['price'];
                     const change = data['change'];
                     const changePercent = data['changePercent'];
                     const symbol = data['symbol'];
 
-                    document.getElementById('stock-price').textContent = `${price} €`;
-                    const changeElement = document.getElementById('stock-change');
-                    changeElement.textContent = `${change} (${changePercent})`;
-                    changeElement.className = 'stock-change ' + (change >= 0 ? 'positive' : 'negative');
+                    stockPrice.textContent = `${price} €`;
+                    stockChange.textContent = `${change} (${changePercent})`;
+                    stockChange.className = 'stock-change ' + (change >= 0 ? 'positive' : 'negative');
                 })
                 .catch(error => {
+                    stockData.getElementsByTagName('sl-spinner')[0].remove();
                     console.error('Error fetching stock data:', error);
-                    //document.getElementById('stock').innerHTML = '<p>Failed to load stock data</p>';
+                    stockError.innerText = 'Failed to load stock data';
                 });
         }
 
