@@ -72,18 +72,20 @@ await init();
 
 // Schedule to fetch stock data twice a day
 // At 09:00 AM
-cron.schedule('0 11 * * *', () => {
+cron.schedule('0 11 * * *', async () => {
     console.log('Fetching stock data in the morning...');
-    fetchStockData();
+    const { price, change, changePercent } = await fetchStockData();
+    await database.insertStockData(symbol, price, change, changePercent, new Date().toISOString());
 }, {
     scheduled: true,
     timezone: "Europe/Paris" // Adjust the timezone according to your needs
 });
 
 // At 03:00 PM
-cron.schedule('0 15 * * *', () => {
+cron.schedule('0 15 * * *', async () => {
     console.log('Fetching stock data in the afternoon...');
-    fetchStockData();
+    const { price, change, changePercent } = await fetchStockData();
+    await database.insertStockData(symbol, price, change, changePercent, new Date().toISOString());
 }, {
     scheduled: true,
     timezone: "Europe/Paris" // Adjust the timezone according to your needs
