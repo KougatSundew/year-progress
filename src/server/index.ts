@@ -2,13 +2,14 @@ import express from 'express';
 import Database from './db.js';
 import cron from 'node-cron';
 import cors from 'cors';
+import { AlphavantageStock, Stock } from './types.js';
 
 const app = express();
 const port = 5173;
 
 app.use(cors({
     origin: function (origin, callback) {
-        const allowedOrigins = ['https://kougatsundew.github.io', 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'https://ypa.komstaproductionstudio.com'];
+        const allowedOrigins = ['https://kougatsundew.github.io', 'http://localhost:3000', 'http://localhost:3001', 'http://localhost:3002', 'https://ypa.komstaproductionstudio.com' , 'http://127.0.0.1:3000'];
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
@@ -36,12 +37,12 @@ async function fetchStockData() {
     const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
     try {
         const response = await fetch(url);
-        const data = await response.json();
+        const data = await response.json() as AlphavantageStock;
         console.log(data); // Process the data as needed
         const quote = data['Global Quote'];
-        const price = parseFloat(quote['05. price']).toFixed(2);
-        const change = parseFloat(quote['09. change']).toFixed(2);
-        const changePercent = quote['10. change percent'];
+        const price = parseFloat(parseFloat(quote['05. price']).toFixed(2));
+        const change = parseFloat(parseFloat(quote['09. change']).toFixed(2));
+        const changePercent = parseFloat(quote['10. change percent']);
 
         return {
             price,
@@ -53,12 +54,9 @@ async function fetchStockData() {
         throw new Error('Error fetching stock data');
     }
 }
-/**
- * @returns {Promise<StockData|null>}
- */
-async function fetchLatestStockData() {
+
+async function fetchLatestStockData(): Promise<Stock | null> {
     try {
-        /** @type {StockData} */
         const latestStockData = await database.getLatestStockData();
         console.log('Latest stock data:', latestStockData);
         return latestStockData;
