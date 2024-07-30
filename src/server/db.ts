@@ -1,16 +1,11 @@
-import sqlite3 from 'sqlite3';
-
-/**
- * @typedef {Object} StockData
- * @property {string} symbol - The stock symbol.
- * @property {number} price - The current price of the stock.
- * @property {number} change - The change in stock price.
- * @property {number} changePercent - The percentage change in stock price.
- * @property {string} date - The date of the stock data.
- */
+import sqlite3, { Database as SQLiteDatabase } from 'sqlite3';
+import { Stock } from './types';
 
 export default class Database {
-    constructor(dbPath) {
+    readonly db: SQLiteDatabase;
+    readonly dbPath: string;
+
+    constructor(dbPath: string) {
         this.dbPath = dbPath;
         this.db = new sqlite3.Database(dbPath, (err) => {
             if (err) {
@@ -48,9 +43,9 @@ export default class Database {
         });
     }
 
-    query(sql, params = []) {
-        return new Promise((resolve, reject) => {
-            this.db.all(sql, params, (err, rows) => {
+    query(sql: string, params = []){
+        return new Promise<Stock[]>((resolve, reject) => {
+            this.db.all<Stock>(sql, params, (err, rows) => {
                 if (err) {
                     console.error('Error running sql: ' + sql);
                     console.error(err);
@@ -63,7 +58,7 @@ export default class Database {
     }
 
     close() {
-        return new Promise((resolve, reject) => {
+        return new Promise<void>((resolve, reject) => {
             this.db.close((err) => {
                 if (err) {
                     console.error('Error closing the database connection.');
@@ -76,16 +71,7 @@ export default class Database {
         });
     }
 
-    /**
-     * Inserts stock data into the renaultStocks table.
-     * @param {string} symbol - The stock symbol.
-     * @param {number} price - The current price of the stock.
-     * @param {number} change - The change in stock price.
-     * @param {number} changePercent - The percentage change in stock price.
-     * @param {string} date - The date of the stock data.
-     * @returns {Promise<StockData|null>}
-     */
-    async insertStockData(symbol, price, change, changePercent, date) {
+    async insertStockData(symbol: string, price: number, change: number, changePercent: number, date: string) {
         const sql = `
             INSERT INTO renaultStocks (symbol, price, change, changePercent, date)
             VALUES (?, ?, ?, ?, ?)
@@ -93,15 +79,6 @@ export default class Database {
         return this.query(sql, [symbol, price, change, changePercent, date]);
     }
 
-    /**
-     * Inserts stock data into the renaultStocks table.
-     * @param {string} symbol - The stock symbol.
-     * @param {number} price - The current price of the stock.
-     * @param {number} change - The change in stock price.
-     * @param {number} changePercent - The percentage change in stock price.
-     * @param {string} date - The date of the stock data.
-     * @returns {Promise<StockData|null>}
-     */
     async getLatestStockData() {
         const sql = `
             SELECT * FROM renaultStocks ORDER BY date DESC LIMIT 1

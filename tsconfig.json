@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+      "outDir": "./lib/",
+      "allowJs": true,
+      "target": "ESNext",
+      "module": "ESNext",
+      "moduleResolution": "Node",
+      "sourceMap": true,
+      "declaration": true,
+      "lib": [
+            "ESNext",
+            "dom"
+      ],
+      "esModuleInterop": true,
+      "skipLibCheck": true,
+    },
+    "include": ["./src/**/*"],
+    "exclude": [
+        ".git",
+        "node_modules"
+    ]
+}
