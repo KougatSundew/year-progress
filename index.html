@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Year Progress Tracker with Weather and Stock</title>
+    <link rel="stylesheet" href="main.98279d8d.css">
+    <link rel="icon" href="icon.8ac7817a.png" type="image/png">
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/components/spinner/spinner.js"></script>
+</head>
+<body>
+    <header>
+        <div id="icon">
+            <img src="icon.8ac7817a.png" alt="Year Progress Icon" id="icon">
+        </div>
+        <div>
+            <a href="https://www.youtube.com/shorts/CJQ52rVHRmI" target="_blank">Click me! 🦅😪</a>
+            <button id="theme-toggle">🌓</button>
+        </div>
+    </header>
+    <div class="container">
+        <h1>Year Progress</h1>
+        <div id="progress-bar">
+            <div id="progress"></div>
+            <div id="progress-glow"></div>
+        </div>
+        <p id="percentage"></p>
+        <p id="days-left"></p>
+        <div class="time-breakdown">
+            <div class="time-item">
+                <div class="time-value" id="months"></div>
+                <div class="time-label">Months</div>
+            </div>
+            <div class="time-item">
+                <div class="time-value" id="weeks"></div>
+                <div class="time-label">Weeks</div>
+            </div>
+            <div class="time-item">
+                <div class="time-value" id="days"></div>
+                <div class="time-label">Days</div>
+            </div>
+        </div>
+        <p id="mood"></p>
+        <div id="stock">
+            <h2>
+                Renault Stock
+                <svg width="21" height="28" viewBox="0 0 21 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.8049 14.0105L9.46458 27.9859H7.36942L0.0339355 14.0105L7.36942 0.0351562H9.46458L2.13394 14.0105L8.41942 25.9894L14.7049 14.0105L11.0372 7.0253L12.0872 5.02882L16.8049 14.0105ZM13.6597 0.0351562H11.5646L4.2291 14.0105L8.94684 22.9922L9.99684 20.9957L6.3291 14.0056L12.6146 2.02671L18.9001 14.0056L11.5646 27.9859H13.6597L20.9952 14.0105L13.6597 0.0351562Z" fill="white"></path>
+                </svg>
+            </h2>
+            <div id="stock-data">
+                <p id="stock-price"></p>
+                <p id="stock-change"></p>
+                <p id="stock-error"></p>
+            </div>
+        </div>
+        <template id="template-spinner">
+            <sl-spinner id="spinner" style="--indicator-color: white; font-size: 50px; --track-width: 5px;"></sl-spinner>
+        </template>
+    </div>
+
+    <script src="main.ba3204e0.js"></script>
+</body>
+</html>
