@@ -3,9 +3,12 @@ import Database from './db.js';
 import cron from 'node-cron';
 import cors from 'cors';
 import { AlphavantageStock, Stock } from './types.js';
+import { Server } from 'socket.io';
+import { chatMessages } from './example-data.js';
 
 const app = express();
 const port = 5173;
+
 
 app.use(cors({
     origin: function (origin, callback) {
@@ -99,6 +102,26 @@ app.get('/', async (req, res) => {
     res.send(stocks);
 });
 
-app.listen(port, () => {
+app.get('/chat', async (req, res) => {
+    res.send(chatMessages);
+})
+
+const httpServer = app.listen(port, () => {
     console.log(`Year progress app listening on port ${port}`)
+});
+
+
+const io = new Server(httpServer, {
+    cors: {
+        origin: '*',
+    }
+});
+
+io.on('connection', (socket) => {
+    console.log('A user connected');
+    socket.on('chat:message', (message) => {
+        console.log('Message received:', message);
+        chatMessages.push(message);
+        io.emit('chat:message', message);
+    });
 });

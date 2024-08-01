@@ -16,3 +16,10 @@ export interface AlphavantageStock {
     };
 
 }
+
+export interface Message {
+    id: number;
+    message: string;
+    sender: string;
+    timestamp: string;
+}
