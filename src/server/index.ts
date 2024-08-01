@@ -4,7 +4,8 @@ import cron from 'node-cron';
 import cors from 'cors';
 import { AlphavantageStock, Stock } from './types.js';
 import { Server } from 'socket.io';
-import { chatMessages } from './example-data.js';
+
+const chatMessages = [];
 
 const app = express();
 const port = 5173;
