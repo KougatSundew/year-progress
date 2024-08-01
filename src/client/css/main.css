@@ -9,7 +9,7 @@ body {
     transition: background-color 1s ease;
 }
 .container {
-    margin: auto;
+    /* margin: auto; */
     text-align: center;
     background: rgba(255, 255, 255, 0.1);
     padding: 2rem;
@@ -181,4 +181,28 @@ p {
         width: 64px;
         height: 64px;
     }
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+}
+
+.usernameContainer {
+    display: flex;
+    align-items: center;
+    input {
+        background: none;
+        border: none;
+        color: white;
+        /* font-size: 1rem; */
+        font-weight: bold;
+        /* text-align: center; */
+        width: auto;
+    }
+}
+
+.mainWrapper {
+    display: flex;
+    justify-content: center;
 }

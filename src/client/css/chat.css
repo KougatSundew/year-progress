@@ -1,0 +1,55 @@
+.chatContainer {
+    height: 500px;
+    width: 300px;
+    background-color: aqua;
+    margin-left: 20px;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+
+    padding: 2rem;
+
+    overflow: hidden;
+}
+
+.chatHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 1rem;
+}
+
+.chatMessageContainer {
+    height: 85%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column-reverse;
+}
+.chat {
+    /* height: 85%; */
+    /* overflow-y: scroll; */
+    padding: 0;
+    /* display: flex;
+    flex-direction: column;
+    justify-content: flex-end; */
+}
+
+.messageContainer {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+
+.sender {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.chatControls {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+    max-width: fit-content;
+}
