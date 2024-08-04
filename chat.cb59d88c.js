@@ -6287,7 +6287,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.backendUrl = void 0;
-var backendUrl = exports.backendUrl = 'https://ypa.komstaproductionstudio.com/';
+// export const backendUrl = 'https://ypa.komstaproductionstudio.com/';
+var backendUrl = exports.backendUrl = 'http://localhost:5173/';
 },{}],"../../node_modules/unique-username-generator/dist/data/adjectives.js":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -66331,18 +66332,13 @@ socket.on('chat:message', function (message) {
 });
 (_document$getElementB = document.getElementById('message')) === null || _document$getElementB === void 0 || _document$getElementB.addEventListener('keypress', function (event) {
   if (event.key === 'Enter' && event.shiftKey) {
-    event.preventDefault();
-    var inputElement = event.target;
-    var start = inputElement.selectionStart;
-    var end = inputElement.selectionEnd;
-    inputElement.value = inputElement.value.substring(0, start) + '\n' + inputElement.value.substring(end);
-    inputElement.selectionStart = inputElement.selectionEnd = start + 1;
+    return;
   } else if (event.key === 'Enter') {
     event.preventDefault();
     // Call the function to send the message
     sendMessage();
-    var _inputElement = event.target;
-    _inputElement.value = '';
+    var inputElement = event.target;
+    inputElement.value = '';
   }
 });
 (_document$getElementB2 = document.getElementById('sendMessageBtn')) === null || _document$getElementB2 === void 0 || _document$getElementB2.addEventListener('click', sendMessage);
@@ -66371,7 +66367,7 @@ function sendMessage() {
 }
 function _sendMessage() {
   _sendMessage = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
-    var message;
+    var message, inputElement;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -66393,17 +66389,19 @@ function _sendMessage() {
           _context.next = 8;
           return populateChat();
         case 8:
-          _context.next = 13;
+          inputElement = document.getElementById('message');
+          inputElement.value = '';
+          _context.next = 15;
           break;
-        case 10:
-          _context.prev = 10;
+        case 12:
+          _context.prev = 12;
           _context.t0 = _context["catch"](3);
           console.error('Error sending message:', _context.t0);
-        case 13:
+        case 15:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[3, 10]]);
+    }, _callee, null, [[3, 12]]);
   }));
   return _sendMessage.apply(this, arguments);
 }
@@ -66556,7 +66554,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57297" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56409" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

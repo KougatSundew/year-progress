@@ -124,7 +124,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.backendUrl = void 0;
-var backendUrl = exports.backendUrl = 'https://ypa.komstaproductionstudio.com/';
+// export const backendUrl = 'https://ypa.komstaproductionstudio.com/';
+var backendUrl = exports.backendUrl = 'http://localhost:5173/';
 },{}],"main.ts":[function(require,module,exports) {
 "use strict";
 
@@ -241,7 +242,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57297" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56409" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
