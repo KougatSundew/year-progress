@@ -28,6 +28,35 @@ document.getElementById('message')?.addEventListener('keypress', (event) => {
     }
 });
 document.getElementById('sendMessageBtn')?.addEventListener('click', sendMessage);
+document.getElementById("chatPopoutBtn")?.addEventListener("click", () => {
+     let url = "./chat.html"; // URL of the content to display in the new window
+     let title = "Popout Window";
+     let width = 600;
+     let height = 400;
+
+     // Calculate the position of the window so it's centered
+     let left = screen.width / 2 - width / 2;
+     let top = screen.height / 2 - height / 2;
+
+     // Open the new window with the specified URL and features
+     const chatPopoutWindow = window.open(
+       url,
+       title,
+       `width=${width},height=${height},top=${top},left=${left}`
+     );
+
+     const mainChat = document.querySelector(".chatContainer");
+     mainChat.classList.toggle("hidden");
+
+     let checkWindowClose = setInterval(() => {
+         if (chatPopoutWindow?.closed) {
+            clearInterval(checkWindowClose);
+            mainChat.classList.toggle("hidden");
+         }
+         console.log("Checking if window is closed");
+      }, 1000);
+});
+
 
 async function sendMessage() {
     const message = getInputValue('message');
