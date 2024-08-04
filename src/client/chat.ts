@@ -32,7 +32,7 @@ document.getElementById("chatPopoutBtn")?.addEventListener("click", () => {
      let url = "./chat.html"; // URL of the content to display in the new window
      let title = "Popout Window";
      let width = 600;
-     let height = 400;
+     let height = 800;
 
      // Calculate the position of the window so it's centered
      let left = screen.width / 2 - width / 2;
