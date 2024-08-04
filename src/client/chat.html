@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Omega chat</title>
+
+    <link rel="stylesheet" href="./css/chatPopout.css">
+    <link rel="stylesheet" href="./css/chat.css">
+    <link rel="icon" href="./resources/icon.png" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/themes/light.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/shoelace-autoloader.js"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.16.0/cdn/components/icon/icon.js"></script>
+</head>
+<body>
+    <div class="chatContainerPopout">
+        <div class="chatHeader">
+            <h1>Omega chat</h1>
+            <sl-badge variant="primary" pill>Alpha</sl-badge>
+        </div>
+        <div class="chatMessageContainerPopout">
+            <div id="chat" class="chat">
+            </div>
+        </div>
+        <div class="chatControlsPopout">
+            <sl-textarea size="small" id="message" resize="auto" placeholder="Enter your message"></sl-textarea>
+            <sl-button id="sendMessageBtn">
+                <sl-icon name="send"></sl-icon>
+            </sl-button>
+        </div>
+    </div>
+    <script src="generateUsername.ts"></script>
+    <script src="chat.ts"></script>
+</body>
+</html>

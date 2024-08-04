@@ -13,12 +13,7 @@ socket.on('chat:message', (message) => {
 
 document.getElementById('message')?.addEventListener('keypress', (event) => {
     if (event.key === 'Enter' && event.shiftKey) {
-        event.preventDefault();
-        const inputElement = event.target as HTMLInputElement;
-        const start = inputElement.selectionStart;
-        const end = inputElement.selectionEnd;
-        inputElement.value = inputElement.value.substring(0, start) + '\n' + inputElement.value.substring(end);
-        inputElement.selectionStart = inputElement.selectionEnd = start + 1;
+        return;
     } else if (event.key === 'Enter') {
         event.preventDefault();
         // Call the function to send the message
@@ -28,6 +23,35 @@ document.getElementById('message')?.addEventListener('keypress', (event) => {
     }
 });
 document.getElementById('sendMessageBtn')?.addEventListener('click', sendMessage);
+document.getElementById("chatPopoutBtn")?.addEventListener("click", () => {
+     let url = "./chat.html"; // URL of the content to display in the new window
+     let title = "Popout Window";
+     let width = 600;
+     let height = 800;
+
+     // Calculate the position of the window so it's centered
+     let left = screen.width / 2 - width / 2;
+     let top = screen.height / 2 - height / 2;
+
+     // Open the new window with the specified URL and features
+     const chatPopoutWindow = window.open(
+       url,
+       title,
+       `width=${width},height=${height},top=${top},left=${left}`
+     );
+
+     const mainChat = document.querySelector(".chatContainer");
+     mainChat.classList.toggle("hidden");
+
+     let checkWindowClose = setInterval(() => {
+         if (chatPopoutWindow?.closed) {
+            clearInterval(checkWindowClose);
+            mainChat.classList.toggle("hidden");
+         }
+         console.log("Checking if window is closed");
+      }, 1000);
+});
+
 
 async function sendMessage() {
     const message = getInputValue('message');
@@ -36,6 +60,8 @@ async function sendMessage() {
     try {
         await postMessage({ message, sender: username, timestamp: new Date().toISOString() });
         await populateChat();
+        const inputElement = document.getElementById('message') as HTMLInputElement;
+        inputElement.value = '';
     } catch (error) {
         console.error('Error sending message:', error);
     }
