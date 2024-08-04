@@ -66351,7 +66351,7 @@ socket.on('chat:message', function (message) {
   var url = "./chat.html"; // URL of the content to display in the new window
   var title = "Popout Window";
   var width = 600;
-  var height = 400;
+  var height = 800;
   // Calculate the position of the window so it's centered
   var left = screen.width / 2 - width / 2;
   var top = screen.height / 2 - height / 2;
@@ -66557,7 +66557,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62051" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60442" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
