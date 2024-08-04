@@ -13,12 +13,7 @@ socket.on('chat:message', (message) => {
 
 document.getElementById('message')?.addEventListener('keypress', (event) => {
     if (event.key === 'Enter' && event.shiftKey) {
-        event.preventDefault();
-        const inputElement = event.target as HTMLInputElement;
-        const start = inputElement.selectionStart;
-        const end = inputElement.selectionEnd;
-        inputElement.value = inputElement.value.substring(0, start) + '\n' + inputElement.value.substring(end);
-        inputElement.selectionStart = inputElement.selectionEnd = start + 1;
+        return;
     } else if (event.key === 'Enter') {
         event.preventDefault();
         // Call the function to send the message
@@ -65,6 +60,8 @@ async function sendMessage() {
     try {
         await postMessage({ message, sender: username, timestamp: new Date().toISOString() });
         await populateChat();
+        const inputElement = document.getElementById('message') as HTMLInputElement;
+        inputElement.value = '';
     } catch (error) {
         console.error('Error sending message:', error);
     }
