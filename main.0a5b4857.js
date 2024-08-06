@@ -217,4 +217,4 @@ setInterval(updateProgress, 60000); // Update every minute
 getStockData(); // Get stock data on page load
 setInterval(getStockData, 300000); // Update stock data every 5 minutes
 },{"./consts":"xb0J"}]},{},["ZCfc"], null)
-//# sourceMappingURL=main.ba3204e0.js.map
+//# sourceMappingURL=main.0a5b4857.js.map

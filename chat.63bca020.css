@@ -37,6 +37,13 @@
         height: auto;
         width: auto;
     }
+    h1, h2 {
+        text-align: start;
+    }
+    p {
+        margin: initial;
+        font-size: initial;
+    }
 }
 
 .messageContainer {
@@ -52,9 +59,10 @@
 
 .chatControls {
     width: 100%;
-    display: flex;
     margin-top: 1rem;
-    justify-content: stretch;
+    /* justify-content: stretch; */
+    display: flex;
+    margin-top: auto;
 }
 
 .senderGroup {
@@ -65,4 +73,27 @@
     column-gap: 2rem;
 }
 
-/*# sourceMappingURL=chat.c7cf3029.css.map */
+#message {
+    flex-grow: 1;
+
+    textarea {
+        width: calc(100% - 2.1rem) !important;
+    }
+}
+
+#message::part(textarea) {
+    width: calc(100% - 3.4rem) !important;
+    flex: none !important;
+}
+
+.buttonGroup {
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding-right: 2.2rem;
+    padding-bottom: 2.2rem;
+}
+
+/*# sourceMappingURL=chat.63bca020.css.map */
