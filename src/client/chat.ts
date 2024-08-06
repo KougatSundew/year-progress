@@ -13,6 +13,20 @@ socket.on('chat:message', (message) => {
     populateChat();
 });
 
+let isSecondCloseReceived = false;
+window.addEventListener("message", (event) => {
+    if (event.data === "chatPopoutClose") {
+        if (isSecondCloseReceived) {
+            const mainChat = document.querySelector(".chatContainer");
+            mainChat.classList.toggle("hidden");
+            isChatPopout = false;
+            populateChat();
+        } else {
+            isSecondCloseReceived = true;
+        }
+    }
+});
+
 document.getElementById("message")?.addEventListener("keydown", (event) => {
      if (event.ctrlKey) {
        switch (event.key.toLowerCase()) {
@@ -64,7 +78,7 @@ document.getElementById("chatPopoutBtn")?.addEventListener("click", () => {
      let top = screen.height / 2 - height / 2;
 
      // Open the new window with the specified URL and features
-     const chatPopoutWindow = window.open(
+    const chatPopoutWindow = window.open(
        url,
        title,
        `width=${width},height=${height},top=${top},left=${left}`
@@ -74,23 +88,9 @@ document.getElementById("chatPopoutBtn")?.addEventListener("click", () => {
      mainChat.classList.toggle("hidden");
      isChatPopout = true;
 
-      let baseDelay = 1000; // Initial delay of 1 second
-      let maxDelay = 32000; // Maximum delay of 32 seconds
-      let currentDelay = baseDelay;
-
-      const checkWindowClose = () => {
-        if (chatPopoutWindow?.closed) {
-          mainChat.classList.toggle("hidden");
-          currentDelay = baseDelay; // Reset delay to base delay
-        } else {
-          console.log("Checking if window is closed");
-          currentDelay = Math.min(currentDelay * 2, maxDelay); // Exponential backoff
-          setTimeout(checkWindowClose, currentDelay);
-        }
-      };
-
-      // Start the first check
-      setTimeout(checkWindowClose, currentDelay);
+    chatPopoutWindow.addEventListener('unload', () => {
+        parent.postMessage('chatPopoutClose', '*');
+    });
 });
 
 
