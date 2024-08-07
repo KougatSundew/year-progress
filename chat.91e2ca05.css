@@ -37,13 +37,6 @@
         height: auto;
         width: auto;
     }
-    h1, h2 {
-        text-align: start;
-    }
-    p {
-        margin: initial;
-        font-size: initial;
-    }
 }
 
 .messageContainer {
@@ -96,4 +89,4 @@
     padding-bottom: 2.2rem;
 }
 
-/*# sourceMappingURL=chat.63bca020.css.map */
+/*# sourceMappingURL=chat.91e2ca05.css.map */

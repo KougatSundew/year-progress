@@ -6287,7 +6287,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.backendUrl = void 0;
-var backendUrl = exports.backendUrl = 'http://localhost:5173/';
+var backendUrl = exports.backendUrl = 'https://ypa.komstaproductionstudio.com/';
 },{}],"wpM2":[function(require,module,exports) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -48788,8 +48788,22 @@ var socket = (0, _socket.io)(_consts.backendUrl);
 socket.on('chat:message', function (message) {
   populateChat();
 });
+var isSecondCloseReceived = false;
 window.addEventListener("message", function (event) {
-  console.log("Message received", event.data);
+  if (event.origin !== window.location.origin) {
+    return; // Ignore messages from untrusted sources
+  }
+  if (event.data === "chatPopoutClose") {
+    if (isSecondCloseReceived) {
+      var mainChat = document.querySelector(".chatContainer");
+      mainChat.classList.toggle("hidden");
+      isChatPopout = false;
+      populateChat();
+      isSecondCloseReceived = false;
+    } else {
+      isSecondCloseReceived = true;
+    }
+  }
 });
 (_document$getElementB = document.getElementById("message")) === null || _document$getElementB === void 0 || _document$getElementB.addEventListener("keydown", function (event) {
   if (event.ctrlKey) {
@@ -48843,26 +48857,9 @@ window.addEventListener("message", function (event) {
   var mainChat = document.querySelector(".chatContainer");
   mainChat.classList.toggle("hidden");
   isChatPopout = true;
-  chatPopoutWindow.postMessage('open', '*');
-  // chatPopoutWindow.postMessage('close', '*');
-  // window.addEventListener("message", (event) => {
-  //     console.log("Message received", event.data);
-  // }, false);
-  //   let baseDelay = 1000; // Initial delay of 1 second
-  //   let maxDelay = 32000; // Maximum delay of 32 seconds
-  //   let currentDelay = baseDelay;
-  //   const checkWindowClose = () => {
-  //     if (chatPopoutWindow?.closed) {
-  //       mainChat.classList.toggle("hidden");
-  //       currentDelay = baseDelay; // Reset delay to base delay
-  //     } else {
-  //       console.log("Checking if window is closed");
-  //       currentDelay = Math.min(currentDelay * 2, maxDelay); // Exponential backoff
-  //       setTimeout(checkWindowClose, currentDelay);
-  //     }
-  //   };
-  //   // Start the first check
-  //   setTimeout(checkWindowClose, currentDelay);
+  chatPopoutWindow.addEventListener('unload', function () {
+    parent.postMessage('chatPopoutClose', '*');
+  });
 });
 function applyMarkdown(syntax) {
   var textarea = document.querySelector("sl-textarea"); // Adjust the selector as needed
@@ -49049,4 +49046,4 @@ function updateChatUI(messages) {
 }
 populateChat();
 },{"socket.io-client":"epex","./consts":"xb0J","./generateUsername":"AgH8"}]},{},["MuUD"], null)
-//# sourceMappingURL=chat.c247b302.js.map
+//# sourceMappingURL=chat.e5ce509c.js.map

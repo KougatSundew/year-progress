@@ -52,10 +52,9 @@
 
 .chatControls {
     width: 100%;
-    margin-top: 1rem;
-    /* justify-content: stretch; */
     display: flex;
-    margin-top: auto;
+    margin-top: 1rem;
+    justify-content: stretch;
 }
 
 .senderGroup {
@@ -66,27 +65,4 @@
     column-gap: 2rem;
 }
 
-#message {
-    flex-grow: 1;
-
-    textarea {
-        width: calc(100% - 2.1rem) !important;
-    }
-}
-
-#message::part(textarea) {
-    width: calc(100% - 3.4rem) !important;
-    flex: none !important;
-}
-
-.buttonGroup {
-    display: flex;
-    flex-flow: column;
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    padding-right: 2.2rem;
-    padding-bottom: 2.2rem;
-}
-
-/*# sourceMappingURL=chat.e802b53e.css.map */
+/*# sourceMappingURL=chat.c7cf3029.css.map */

@@ -6287,6 +6287,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.backendUrl = void 0;
+// export const backendUrl = 'https://ypa.komstaproductionstudio.com/';
 var backendUrl = exports.backendUrl = 'http://localhost:5173/';
 },{}],"../../node_modules/unique-username-generator/dist/data/adjectives.js":[function(require,module,exports) {
 "use strict";
@@ -66332,12 +66333,16 @@ socket.on('chat:message', function (message) {
 });
 var isSecondCloseReceived = false;
 window.addEventListener("message", function (event) {
+  if (event.origin !== window.location.origin) {
+    return; // Ignore messages from untrusted sources
+  }
   if (event.data === "chatPopoutClose") {
     if (isSecondCloseReceived) {
       var mainChat = document.querySelector(".chatContainer");
       mainChat.classList.toggle("hidden");
       isChatPopout = false;
       populateChat();
+      isSecondCloseReceived = false;
     } else {
       isSecondCloseReceived = true;
     }
@@ -66608,7 +66613,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "44495" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56884" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
