@@ -37,6 +37,13 @@
         height: auto;
         width: auto;
     }
+    h1, h2 {
+        text-align: start;
+    }
+    p {
+        margin: initial;
+        font-size: initial;
+    }
 }
 
 .messageContainer {

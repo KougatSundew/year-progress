@@ -5,10 +5,58 @@ import { getUsername } from "./generateUsername";
 
 const username = getUsername();
 
+let isChatPopout = false;
+
 let socket = io(backendUrl);
 
 socket.on('chat:message', (message) => {
     populateChat();
+});
+
+let isSecondCloseReceived = false;
+window.addEventListener("message", (event) => {
+    if (event.origin !== window.location.origin) {
+        return; // Ignore messages from untrusted sources
+    }
+    if (event.data === "chatPopoutClose") {
+        if (isSecondCloseReceived) {
+            const mainChat = document.querySelector(".chatContainer");
+            mainChat.classList.toggle("hidden");
+            isChatPopout = false;
+            populateChat();
+            isSecondCloseReceived = false;
+        } else {
+            isSecondCloseReceived = true;
+        }
+    }
+});
+
+document.getElementById("message")?.addEventListener("keydown", (event) => {
+     if (event.ctrlKey) {
+       switch (event.key.toLowerCase()) {
+         case "b":
+           console.log("Bold");
+           event.preventDefault();
+           applyMarkdown("**");
+           break;
+         case "i":
+           event.preventDefault();
+           applyMarkdown("*");
+           break;
+         case "x":
+           if (event.shiftKey) {
+             event.preventDefault();
+             applyMarkdown("~~");
+           }
+           break;
+         case "c":
+           if (event.altKey && event.shiftKey) {
+             event.preventDefault();
+             applyMarkdown("``");
+           }
+           break;
+       }
+     }
 });
 
 document.getElementById('message')?.addEventListener('keypress', (event) => {
@@ -34,7 +82,7 @@ document.getElementById("chatPopoutBtn")?.addEventListener("click", () => {
      let top = screen.height / 2 - height / 2;
 
      // Open the new window with the specified URL and features
-     const chatPopoutWindow = window.open(
+    const chatPopoutWindow = window.open(
        url,
        title,
        `width=${width},height=${height},top=${top},left=${left}`
@@ -42,16 +90,27 @@ document.getElementById("chatPopoutBtn")?.addEventListener("click", () => {
 
      const mainChat = document.querySelector(".chatContainer");
      mainChat.classList.toggle("hidden");
+     isChatPopout = true;
 
-     let checkWindowClose = setInterval(() => {
-         if (chatPopoutWindow?.closed) {
-            clearInterval(checkWindowClose);
-            mainChat.classList.toggle("hidden");
-         }
-         console.log("Checking if window is closed");
-      }, 1000);
+    chatPopoutWindow.addEventListener('unload', () => {
+        parent.postMessage('chatPopoutClose', '*');
+    });
 });
 
+
+function applyMarkdown(syntax: string) {
+    const textarea = document.querySelector<HTMLTextAreaElement>("sl-textarea"); // Adjust the selector as needed
+    if (!textarea) return;
+
+    console.log("Applying markdown", syntax);
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = textarea.value.substring(start, end);
+
+    textarea.value = `${syntax}${selectedText}${syntax}`;
+    textarea.setSelectionRange(start + syntax.length, end + syntax.length);
+    textarea.focus();
+}
 
 async function sendMessage() {
     const message = getInputValue('message');
@@ -85,6 +144,9 @@ async function getMessages() {
 }
 
 async function populateChat() {
+    if (isChatPopout) {
+        return;
+    }
     try {
         const messages = await getMessages();
         updateChatUI(messages);
@@ -140,10 +202,14 @@ function updateChatUI(messages: Message[]) {
         <div class="messageContainer">
             <div class="senderGroup">
                 <div class="sender">${message.sender}</div>
-                <sl-relative-time class="timestamp" date="${new Date(message.timestamp)}"></sl-relative-time>
+                <sl-relative-time class="timestamp" date="${new Date(
+                  message.timestamp
+                )}"></sl-relative-time>
             </div>
-            <div class="message">${message.message}</div>
-        </div>` as unknown as HTMLElement;
+            <div class="message">
+                <md-block>${message.message}</md-block>
+            </div>
+        </div>`;
         chat.innerHTML += temp;
     });
 }
