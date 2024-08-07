@@ -15,6 +15,9 @@ socket.on('chat:message', (message) => {
 
 let isSecondCloseReceived = false;
 window.addEventListener("message", (event) => {
+    if (event.origin !== window.location.origin) {
+        return; // Ignore messages from untrusted sources
+    }
     if (event.data === "chatPopoutClose") {
         if (isSecondCloseReceived) {
             const mainChat = document.querySelector(".chatContainer");
