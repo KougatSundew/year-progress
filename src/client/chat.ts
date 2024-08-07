@@ -21,6 +21,7 @@ window.addEventListener("message", (event) => {
             mainChat.classList.toggle("hidden");
             isChatPopout = false;
             populateChat();
+            isSecondCloseReceived = false;
         } else {
             isSecondCloseReceived = true;
         }
